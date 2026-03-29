@@ -28,15 +28,6 @@ Book.prototype.matchesAuthor = function (authorName) {
 Book.prototype.matchesTitle = function (word) {
   return this.title.includes(word) ? true : false
 }
-// Book.prototype.getTitle = function(){
-//   return this.title
-// }
-// Book.prototype.getYear = function(){
-//   return this.year
-// }
-// Book.prototype.getAuthor = function(){
-//   return this.author
-// }
 
 function Library(books = []) {
   this.books = books
