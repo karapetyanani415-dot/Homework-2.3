@@ -39,7 +39,7 @@ class Cat extends Animal {
     return "Meow!";
   }
   getInfo() {
-    return `name : ${this.name}, age ; ${this.age}, breed : ${this.color}`;
+    return `name : ${this.name}, age ; ${this.age}, color : ${this.color}`;
   }
 }
 
