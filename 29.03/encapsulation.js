@@ -143,11 +143,10 @@ class Library {
     return this.#books.filter((e) => e.author === authorName);
   }
   giveBookToReader(title, reader) {
-    let book = this.findBookByTitle(title);
-    if (!book) {
-      return "Book not found";
-    }
-    reader.takeBook(book);
+    const book = this.findBookByTitle(title);
+    if (!book) return console.log("Book not found");
+    const msg = reader.takeBook(book);
+    if (msg) console.log(msg);
   }
   acceptBookFromReader(title, reader) {
     let found = this.findBookByTitle(title);
@@ -163,7 +162,7 @@ class Library {
     return this.#books.map((e) => e.getInfo());
   }
   getLibraryInfo() {
-    return `${this.#name} Library: ${this.#books.length} books, ${this.#readers.length} readers`;
+    return `${this.#name} : ${this.#books.length} books, ${this.#readers.length} readers`;
   }
 }
 const book1 = new Book("The Hobbit", "J. R. R. Tolkien", 1937);
