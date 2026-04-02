@@ -1,103 +1,98 @@
 function Book(title, author, year) {
-  this.title = title
-  this.author = author
-  this.year = year
-  this.isAvailable = true
+  this.title = title;
+  this.author = author;
+  this.year = year;
+  this.isAvailable = true;
 }
 Book.prototype.getInfo = function () {
-  console.log(`title: ${this.title}, auther: ${this.author}, year: ${this.year}, isAvailable: ${this.isAvailable}`)
-}
+  return `title: ${this.title}, auther: ${this.author}, year: ${this.year}, isAvailable: ${this.isAvailable}`;
+};
 Book.prototype.borrowBook = function () {
   if (!this.isAvailable) {
-    throw new Error("book is already unavailable")
+    return "book is already unavailable";
   }
-  this.isAvailable = false
-}
+  this.isAvailable = false;
+};
 Book.prototype.returnBook = function () {
   if (this.isAvailable) {
-    throw new Error("book is already available")
+    return "book is already available";
   }
-  this.isAvailable = true
-}
+  this.isAvailable = true;
+};
 Book.prototype.matchesAuthor = function (authorName) {
-  return authorName.toLowerCase() === this.author.toLowerCase()
-}
+  return authorName.toLowerCase() === this.author.toLowerCase();
+};
 Book.prototype.matchesAuthor = function (authorName) {
-  return authorName.toLowerCase() === this.author.toLowerCase()
-}
+  return authorName.toLowerCase() === this.author.toLowerCase();
+};
 Book.prototype.matchesTitle = function (word) {
-  return this.title.includes(word) ? true : false
-}
+  return this.title.includes(word);
+};
 
 function Library(books = []) {
-  this.books = books
+  this.books = books;
 }
 Library.prototype.addBook = function (book) {
-  this.books.push(book)
-}
+  this.books.push(book);
+};
 
 Library.prototype.removeBook = function (title) {
-  let idx = this.books.findIndex(t => t.title === title)
+  let idx = this.books.findIndex((b) => b.title === title);
   if (idx !== -1) {
-    this.books.splice(idx, 1)
+    this.books.splice(idx, 1);
   } else {
-    throw new Error("Book not found")
+    return "Book not found";
   }
-}
+};
 Library.prototype.findBookByTitle = function (title) {
-  let book = this.books.find(t => t.title === title)
+  return this.books.find((b) => b.title === title) || null;
+};
+Library.prototype.findBooksByAuthor = function (authorName) {
+  return this.books.filter((a) => a.author === authorName);
+};
+Library.prototype.getAvailableBooks = function () {
+  return this.books.filter((a) => a.isAvailable);
+};
+Library.prototype.borrowBook = function (title) {
+  let book = this.findBookByTitle(title);
+  if (!book) {
+    return console.log("Book not found");
+  }
+  let msg = book.borrowBook();
+  if (msg) console.log(msg);
+};
+Library.prototype.returnBook = function (title) {
+  let book = this.books.find((t) => t.title === title);
   if (book) {
-    return book.getInfo()
+    return book.returnBook();
   } else {
+    return "Book not found";
+  }
+};
+Library.prototype.showAllBooks = function () {
+  this.books.forEach((b) => console.log(b.getInfo()));
+};
+Library.prototype.countBooks = function () {
+  return this.books.length;
+};
+Library.prototype.countAvailableBooks = function () {
+  return this.books.filter((a) => a.isAvailable).length;
+};
+Library.prototype.searchBooks = function (word) {
+  return this.books.filter((e) => e.matchesTitle(word));
+};
+Library.prototype.getOldestBook = function () {
+  if (this.books.length === 0) {
     return null;
   }
-}
-Library.prototype.findBooksByAuthor = function (authorName) {
-  return this.books.filter(a => a.author === authorName)
-}
-Library.prototype.getAvailableBooks = function () {
-  return this.books.filter(a => a.isAvailable)
-}
-Library.prototype.borrowBook = function (title) {
-  let book = this.books.find(t => t.title === title)
-  if (book) {
-    return book.borrowBook()
-  }
-  else {
-    throw new Error("Book not found");
-  }
-}
-Library.prototype.returnBook = function (title) {
-  let book = this.books.find(t => t.title === title)
-  if (book) {
-    return book.returnBook()
-  }
-  else {
-    return "Book not found"
-  }
-}
-Library.prototype.showAllBooks = function () {
-  return this.books.forEach(e => e.getInfo());
-}
-Library.prototype.countBooks = function () {
-  return this.books.length
-}
-Library.prototype.countAvailableBooks = function () {
-  return this.books.filter(a => a.isAvailable).length
-}
-Library.prototype.searchBooks = function (word) {
-  return this.books.filter(e => e.matchesTitle(word))
-}
-Library.prototype.getOldestBook = function () {
-  let oldest = this.books[0]
+  let oldest = this.books[0];
   for (let book of this.books) {
-    if (book.year <= oldest.year) {
-      oldest = book
+    if (book.year < oldest.year) {
+      oldest = book;
     }
   }
-  return oldest
-}
-
+  return oldest;
+};
 
 const book1 = new Book("Harry Potter", "J. K. Rowling", 1997);
 const book2 = new Book("1984", "George Orwell", 1949);

@@ -1,101 +1,97 @@
 class Book {
-    constructor(title, author, year) {
-        this.title = title
-        this.author = author
-        this.year = year
-        this.isAvailable = true
+  constructor(title, author, year) {
+    this.title = title;
+    this.author = author;
+    this.year = year;
+    this.isAvailable = true;
+  }
+  getInfo() {
+    return `title: ${this.title}, auther: ${this.author}, year: ${this.year}, isAvailable: ${this.isAvailable}`;
+  }
+  borrowBook() {
+    if (!this.isAvailable) {
+      return "book is already unavailable";
     }
-    getInfo() {
-        console.log(`title: ${this.title}, auther: ${this.author}, year: ${this.year}, isAvailable: ${this.isAvailable}`)
+    this.isAvailable = false;
+  }
+  returnBook() {
+    if (this.isAvailable) {
+      return "book is already available";
     }
-    borrowBook() {
-        if (!this.isAvailable) {
-            throw new Error("book is already unavailable")
-        }
-        this.isAvailable = false
-    }
-    returnBook() {
-        if (this.isAvailable) {
-            throw new Error("book is already available")
-        }
-        this.isAvailable = true
-    }
-    matchesAuthor(authorName) {
-        return authorName.toLowerCase() === this.author.toLowerCase()
-    }
-    matchesTitle(word) {
-        return this.title.includes(word) ? true : false
-    }
+    this.isAvailable = true;
+  }
+  matchesAuthor(authorName) {
+    return authorName.toLowerCase() === this.author.toLowerCase();
+  }
+  matchesTitle(word) {
+    return this.title.includes(word);
+  }
 }
 
 class Library {
-    constructor() {
-        this.books = []
+  constructor() {
+    this.books = [];
+  }
+  addBook(book) {
+    this.books.push(book);
+  }
+  removeBook(title) {
+    let idx = this.books.findIndex((b) => b.title === title);
+    if (idx !== -1) {
+      this.books.splice(idx, 1);
+    } else {
+      return "Book not found";
     }
-    addBook(book) {
-        this.books.push(book)
+  }
+  findBookByTitle(title) {
+    return this.books.find((b) => b.title === title) || null;
+  }
+  findBooksByAuthor(authorName) {
+    return this.books.filter((a) => a.author === authorName);
+  }
+  getAvailableBooks() {
+    return this.books.filter((a) => a.isAvailable);
+  }
+  borrowBook(title) {
+    let book = this.findBookByTitle(title);
+    if (!book) {
+      return console.log("Book not found");
     }
-    removeBook(title) {
-        let idx = this.books.findIndex(t => t.title === title)
-        if (idx !== -1) {
-            this.books.splice(idx, 1)
-        } else {
-            throw new Error("Book not found")
-        }
+    let msg = book.borrowBook();
+    if (msg) console.log(msg);
+  }
+  returnBook(title) {
+    let book = this.books.find((t) => t.title === title);
+    if (book) {
+      return book.returnBook();
+    } else {
+      return "Book not found";
     }
-    findBookByTitle(title) {
-        let book = this.books.find(t => t.title === title)
-        if (book) {
-            return book.getInfo()
-        } else {
-            return null;
-        }
+  }
+  showAllBooks() {
+    this.books.forEach((b) => console.log(b.getInfo()));
+  }
+  countBooks() {
+    return this.books.length;
+  }
+  countAvailableBooks() {
+    return this.books.filter((a) => a.isAvailable).length;
+  }
+  searchBooks(word) {
+    return this.books.filter((e) => e.matchesTitle(word));
+  }
+  getOldestBook() {
+    if (this.books.length === 0) {
+      return null;
     }
-    findBooksByAuthor(authorName) {
-        return this.books.filter(a => a.author === authorName)
+    let oldest = this.books[0];
+    for (let book of this.books) {
+      if (book.year < oldest.year) {
+        oldest = book;
+      }
     }
-    getAvailableBooks() {
-        return this.books.filter(a => a.isAvailable)
-    }
-    borrowBook(title) {
-        let book = this.books.find(t => t.title === title)
-        if (book) {
-            return book.borrowBook()
-        }
-        else {
-            throw new Error("Book not found");
-        }
-    }
-    returnBook(title) {
-        let book = this.books.find(t => t.title === title)
-        if (book) {
-            return book.returnBook()
-        }
-        else {
-            return "Book not found"
-        }
-    }
-    showAllBooks() {
-        return this.books.forEach(e => e.getInfo());
-    }
-    countBooks() {
-        return this.books.length
-    }
-    countAvailableBooks() {
-        return this.books.filter(a => a.isAvailable).length
-    }
-    searchBooks(word) {
-        return this.books.filter(e => e.matchesTitle(word))
-    }
-    getOldestBook() {
-        let oldest = this.books[0]
-        for (let book of this.books) {
-            if (book.year <= oldest.year) {
-                oldest = book
-            }
-        }
-        return oldest
-    }
+    return oldest;
+  }
 }
 
 const book1 = new Book("Harry Potter", "J. K. Rowling", 1997);
