@@ -24,7 +24,7 @@ class Book {
     return authorName.toLowerCase() === this.author.toLowerCase();
   }
   matchesTitle(word) {
-    return this.title.includes(word);
+    return this.title.toLowerCase().includes(word.toLowerCase());
   }
 }
 
@@ -47,7 +47,7 @@ class Library {
     return this.books.find((b) => b.title === title) || null;
   }
   findBooksByAuthor(authorName) {
-    return this.books.filter((a) => a.author === authorName);
+    return this.books.filter((b) => b.matchesAuthor(authorName));
   }
   getAvailableBooks() {
     return this.books.filter((a) => a.isAvailable);
@@ -55,7 +55,7 @@ class Library {
   borrowBook(title) {
     let book = this.findBookByTitle(title);
     if (!book) {
-      return console.log("Book not found");
+      console.log("Book not found");
     }
     let msg = book.borrowBook();
     if (msg) console.log(msg);

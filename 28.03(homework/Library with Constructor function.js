@@ -22,15 +22,12 @@ Book.prototype.returnBook = function () {
 Book.prototype.matchesAuthor = function (authorName) {
   return authorName.toLowerCase() === this.author.toLowerCase();
 };
-Book.prototype.matchesAuthor = function (authorName) {
-  return authorName.toLowerCase() === this.author.toLowerCase();
-};
 Book.prototype.matchesTitle = function (word) {
   return this.title.includes(word);
 };
 
-function Library(books = []) {
-  this.books = books;
+function Library() {
+  this.books = [];
 }
 Library.prototype.addBook = function (book) {
   this.books.push(book);
@@ -56,7 +53,7 @@ Library.prototype.getAvailableBooks = function () {
 Library.prototype.borrowBook = function (title) {
   let book = this.findBookByTitle(title);
   if (!book) {
-    return console.log("Book not found");
+    console.log("Book not found");
   }
   let msg = book.borrowBook();
   if (msg) console.log(msg);
