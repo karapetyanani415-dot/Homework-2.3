@@ -14,7 +14,7 @@ class Book {
   }
   set year(value) {
     if (value <= 0) {
-      throw new Error("year must be a positive number");
+      return "year must be a positive number";
     }
     this.#year = value;
   }
@@ -23,13 +23,13 @@ class Book {
   }
   set author(value) {
     if (value.length === 0) {
-      throw new Error("author must not be an empty string");
+      return "author must not be an empty string";
     }
     this.#author = value;
   }
   set title(value) {
     if (value.length === 0) {
-      throw new Error("title must not be an empty string");
+      return "title must not be an empty string";
     }
     this.#title = value;
   }
@@ -70,7 +70,7 @@ class Reader {
   }
   set name(value) {
     if (value.length === 0) {
-      throw new Error("name must not be an empty string");
+      return "name must not be an empty string";
     }
     this.#name = value;
   }
@@ -119,7 +119,7 @@ class Library {
   }
   set name(value) {
     if (value.length === 0) {
-      throw new Error("name must not be an empty string");
+      return "name must not be an empty string";
     }
     this.#name = value;
   }
