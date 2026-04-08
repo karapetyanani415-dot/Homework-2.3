@@ -1,0 +1,33 @@
+function getPrototypeMethods(obj) {
+    let prop = Object.getPrototypeOf(obj);
+    if (!prop || prop === Object.prototype) return []
+    return Object.getOwnPropertyNames(prop).filter(name => typeof prop[name] === 'function' );
+}
+
+function User(name) {
+    this.name = name;
+}
+User.prototype.sayHi = function () {
+    return `Hi, ${this.name}`;
+};
+User.prototype.getName = function () {
+    return this.name;
+};
+const user = new User("Alex");
+console.log(getPrototypeMethods(user)); // ["sayHi", "getName"] order may vary
+console.log(getPrototypeMethods({
+    a: 1
+})); // []
+console.log(getPrototypeMethods([]).includes("push")); // true
+
+
+
+const base = {
+    x: 10,
+    print() {
+        return "hello";
+    }
+};
+const obj = Object.create(base);
+console.log(getPrototypeMethods(obj)); // ["print"]
+console.log(getPrototypeMethods(Object.create(null))); // []
