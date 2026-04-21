@@ -8,7 +8,7 @@ let myRange = {
         if (current <= this.to) {
           return { value: current++, done: false };
         } else {
-          return { done: true };
+          return { value: undefined, done: true };
         }
       },
     };
